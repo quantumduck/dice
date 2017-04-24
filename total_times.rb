@@ -23,11 +23,18 @@ class Die
       permutation
     end
   end
+
+  def totals(n = 2)
+    totals = {}
+    (n..(n * @sides)).each { |sum| totals[sum] = 0 }
+    permutations.each { |p| totals[p.sum] += 1 }
+    totals
+  end
+
 end
+
+
 
 d1 = Die.new
 
-totals = {}
-(2..(2 * d1.sides)).each { |sum| totals[sum] = 0 }
-d1.permutations.each { |p| totals[p[0] + p[1]] += 1 }
-totals.each { |k, v| puts "#{k} occurs #{v} time#{v > 1? "s": ""}" }
+d1.totals.each { |k, v| puts "#{k} occurs #{v} time#{v > 1? "s": ""}" }
