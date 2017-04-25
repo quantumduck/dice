@@ -45,8 +45,8 @@ defender_armies = 5
 
 
 def battle(attacker_armies, defender_armies)
-  if attacker_armies <= 0
-    puts "Attacker has no armies and can't attack."
+  if attacker_armies <= 1
+    puts "Attacker does not have enough armies to attack."
     return [attacker_armies, defender_armies]
   elsif defender_armies <= 0
     puts "Defender has no armies and can't defend."
@@ -54,17 +54,17 @@ def battle(attacker_armies, defender_armies)
     return [attacker_armies, defender_armies]
   end
 
-  if attacker_armies >= 3
+  if attacker_armies >= 4
     attack_dice = [Die.new, Die.new, Die.new]
   else
     attack_dice = []
-    attacker_armies.times { attack_dice << Die.new }
+    (attacker_armies - 1).times { attack_dice << Die.new }
   end
 
   if defender_armies >= 2
     defend_dice = [Die.new, Die.new]
   else
-    defined_dice = [Die.new]
+    defend_dice = [Die.new]
   end
 
   puts "New Battle Begins!"
@@ -104,8 +104,20 @@ end
 
 attacker_armies = 5
 defender_armies = 5
-while attacker_armies > 0 && defender_armies > 0
+while attacker_armies > 1 && defender_armies > 0
   result = battle(attacker_armies, defender_armies)
   attacker_armies = result.first
   defender_armies = result.last
+end
+
+puts "Final Outcome"
+puts "============="
+puts
+puts "Attacker's final army count: #{attacker_armies}"
+puts "Devender's final army count: #{defender_armies}"
+puts
+if defender_armies == 0
+  puts "Attacker is victorious!"
+else
+  puts "Defender retains thier country!"
 end
