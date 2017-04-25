@@ -58,7 +58,7 @@ def battle(attacker_armies, defender_armies)
     attack_dice = [Die.new, Die.new, Die.new]
   else
     attack_dice = []
-    attack_armies.times { attack_dice << Die.new }
+    attacker_armies.times { attack_dice << Die.new }
   end
 
   if defender_armies >= 2
@@ -87,10 +87,25 @@ def battle(attacker_armies, defender_armies)
     defend_roll = defend_results.pop
     if attack_roll > defend_roll
       puts "Attacker wins a battle: #{attack_roll} beats #{defend_roll}"
+      defender_armies -= 1
     else
       puts "Defender wins a battle: #{defend_roll} beats #{attack_roll}"
+      attacker_armies -= 1
     end
+    puts
+    puts "Armies after the battle:"
+    puts "Attacker: #{attacker_armies} armies"
+    puts "Defender: #{defender_armies} armies"
+    puts
+    puts
+    return [attacker_armies, defender_armies]
   end
 end
 
-battle(5,5)
+attacker_armies = 5
+defender_armies = 5
+while attacker_armies > 0 && defender_armies > 0
+  result = battle(attacker_armies, defender_armies)
+  attacker_armies = result.first
+  defender_armies = result.last
+end
