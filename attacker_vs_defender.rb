@@ -47,11 +47,11 @@ defender_armies = 5
 def battle(attacker_armies, defender_armies)
   if attacker_armies <= 0
     puts "Attacker has no armies and can't attack."
-    return
+    return [attacker_armies, defender_armies]
   elsif defender_armies <= 0
     puts "Defender has no armies and can't defend."
     puts "Attacker wins by default."
-    return
+    return [attacker_armies, defender_armies]
   end
 
   if attacker_armies >= 3
@@ -70,7 +70,27 @@ def battle(attacker_armies, defender_armies)
   puts "New Battle Begins!"
   puts "=================="
   puts
-  puts "Attacker #{attacker_armies} armies"
-  puts "Defender #{defender_armies} armies"
+  puts "Attacker: #{attacker_armies} armies"
+  puts "Defender: #{defender_armies} armies"
   puts
+  attack_results = attack_dice.map { |d| d.roll }
+  attack_results.sort!
+  result_string = attack_results.reverse.map { |r| r.to_s }.join(', ')
+  puts "Attacker rolls #{result_string}"
+  defend_results = defend_dice.map { |d| d.roll }
+  defend_results.sort!
+  result_string = defend_results.reverse.map { |r| r.to_s }.join(', ')
+  puts "Devender rolls #{result_string}"
+  puts
+  while attack_results.count > 0 && defend_results.count > 0
+    attack_roll = attack_results.pop
+    defend_roll = defend_results.pop
+    if attack_roll > defend_roll
+      puts "Attacker wins a battle: #{attack_roll} beats #{defend_roll}"
+    else
+      puts "Defender wins a battle: #{defend_roll} beats #{attack_roll}"
+    end
+  end
 end
+
+battle(5,5)
